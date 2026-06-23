@@ -1,1 +1,5 @@
-
+-- ==================================
+-- SALES ANALYTICS
+-- Purpose: Analyze revenue trends, product performance, and sales patterns
+-- ==================================
+-- KPI: TOTAL REVENUE & TOTAL QUANTITY SOLD
