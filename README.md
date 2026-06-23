@@ -1,11 +1,10 @@
 # Retail Sales Analytics Dashboard
 ## Project Overview
-This project analyzes retail sales performance using SQL (BigQuery) and Tableau. 
-The objective was to identify revenue trends, customer purchasing behavior, and product performance through interactive dashboards.
+This project analyzes retail sales performance using SQL (BigQuery) and Tableau. The analysis focuses on identifying revenue trends, customer purchasing behavior, and product category performance through interactive dashboards and business-focused reporting.
 ## Tools Used
 - SQL (BigQuery)
 - Tableau
-- Github
+- GitHub
 ## Data Model
 The original dataset contained: 
 - Sales Fact Table
@@ -13,6 +12,11 @@ The original dataset contained:
 - Dates Dimension
 - Products Dimension
 A reporting dataset was created in BigQuery and exported to Tableau for visualization.
+## Business Questions
+- How does revenue change over time?
+- Which product categories generate the most revenue?
+- Which customer segments contribute the most sales?
+- Which days of the week generate the highest revenue? 
 ## Dashboard 1: Executive Overview
 ![Executive Overview](Dashboard/Executive%20Overview%20Dashboard.png)
 Focus: 
@@ -32,16 +36,24 @@ Focus:
 - Quantity Sold by Category
 - Average Revenue per Transaction
 ## Key Insights
-- Revenue trends varied across months, indicating periods of stronger sales performance.
-- Customer demographics showed differences in purchasing behavior across age groups and genders.
-- Product categories contributed differently to revenue and sales volume.
-- Product-level analysis identified the categories generating the highest revenue per transaction.
+- Electronics generated the highest revenue among all product categories even though the quantity sold and average revenue was lower.
+- Customers aged 50+ contributed the largest share of revenue.
+- Revenue peaked in May, suggesting potential seasonal demand patterns that could be leveraged through targeted promotions.
+- Weekday sales generated more revenue than weekend sales, indicating that customer purchasing activity is concentrated during the workweek.
+## Recommendations 
+- Increase marketing efforts toward customers aged 50+, the highest revenue-generating demographic.
+- Maintain strong inventory levels for top-performing product categories, particularly Electronics.
+- Align promotional campaigns with historically high-performing months such as May.
+- Conduct further analysis on underperforming categories to identify pricing, inventory, or marketing opportunities.
 ## Tableau Dashboard 
+View the interactive dashboard here: 
 ADD LINK 
 ## Skills Demonstrated 
-- SQL
+- SQL (Joins, Aggregations, CTEs)
+- BigQuery
 - Data Modeling
-- Data Cleaning
+- Data Cleaning and Transformation
 - Tableau Dashboard Development
 - Business Intelligence Reporting
 - Data Visualization
+- Data Analysis and Insight Generation
