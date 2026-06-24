@@ -9,14 +9,14 @@
 SELECT 
   SUM(`Total Amount`) AS total_revenue, 
   SUM(`Quantity`) AS total_quantity_sold
-FROM `project-5fb8896c-d461-49e8-a4c.retail_project.sales_fact`;
+FROM `project-5fb8896c-d461-49e8-a4c.retail_project.sales_fact` AS sf;
 
 -- ==================================
 -- Revenue by month
 -- ==================================
 SELECT 
   d.month_name, 
-  SUM(sf.`Total amount`) AS revenue
+  SUM(sf.`Total Amount`) AS revenue
 FROM `project-5fb8896c-d461-49e8-a4c.retail_project.sales_fact` AS sf
 INNER JOIN `project-5fb8896c-d461-49e8-a4c.retail_project.dates` AS d
   ON sf.Date = d.Date
@@ -28,7 +28,7 @@ ORDER BY revenue DESC;
 -- ==================================
 SELECT 
   d.weekday, 
-  SUM(`Total Amount`) AS total_revenue
+  SUM(sf.`Total Amount`) AS total_revenue
 FROM `project-5fb8896c-d461-49e8-a4c.retail_project.sales_fact` AS sf
 INNER JOIN `project-5fb8896c-d461-49e8-a4c.retail_project.dates` AS d
   ON sf.Date = d.Date
@@ -40,8 +40,8 @@ ORDER BY total_revenue DESC;
 -- ==================================
 SELECT 
   `Product Category`, 
-  SUM(`Total Amount`) AS revenue
-FROM `project-5fb8896c-d461-49e8-a4c.retail_project.sales_fact`
+  SUM(sf.`Total Amount`) AS revenue
+FROM `project-5fb8896c-d461-49e8-a4c.retail_project.sales_fact` AS sf
 GROUP BY `Product Category`
 ORDER BY revenue DESC;
 
@@ -50,7 +50,7 @@ ORDER BY revenue DESC;
 -- ==================================
 WITH customer_revenue AS (
   SELECT `Customer ID`, SUM(`Total Amount`) AS total_spent
-  FROM `project-5fb8896c-d461-49e8-a4c.retail_project.sales_fact` 
+  FROM `project-5fb8896c-d461-49e8-a4c.retail_project.sales_fact`
   GROUP BY `Customer ID` 
 ), 
 
