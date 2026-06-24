@@ -16,8 +16,8 @@ FROM `project-5fb8896c-d461-49e8-a4c.retail_project.sales_fact`;
 -- ==================================
 SELECT 
   d.month_name, 
-  SUM(o.`Total amount`) AS revenue
-FROM `project-5fb8896c-d461-49e8-a4c.retail_project.sales_fact` AS o
+  SUM(sf.`Total amount`) AS revenue
+FROM `project-5fb8896c-d461-49e8-a4c.retail_project.sales_fact` AS sf
 INNER JOIN `project-5fb8896c-d461-49e8-a4c.retail_project.dates` AS d
   ON o.Date = d.Date
 GROUP BY d.month_name
