@@ -1,4 +1,4 @@
-# Retail Sales Analytics Dashboard
+# Retail Sales Analysis
 ## Project Overview
 This project analyzes retail sales performance using SQL (BigQuery) and Tableau. The analysis focuses on identifying revenue trends, customer purchasing behavior, and product category performance through interactive dashboards and business-focused reporting.
 ## Tools Used
