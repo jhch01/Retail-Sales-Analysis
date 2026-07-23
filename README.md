@@ -11,7 +11,7 @@ The original dataset contained:
 - Customers Dimension
 - Dates Dimension
 - Products Dimension
-A reporting dataset was created in Google BigQuery using SQL and connected to Tableau for interactive dashboard development.
+- A reporting dataset was created in Google BigQuery using SQL and connected to Tableau for interactive dashboard development.
 ## Business Questions
 - How does revenue change over time?
 - Which product categories generate the most revenue?
