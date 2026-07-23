@@ -18,19 +18,19 @@ A reporting dataset was created in BigQuery and exported to Tableau for visualiz
 - Which customer segments contribute the most sales?
 - Which days of the week generate the highest revenue? 
 ## Dashboard 1: Executive Overview
-![Executive Overview](Dashboard/Executive%20Overview%20Dashboard.png)
+![Executive Overview](Tableau/Executive%20Overview%20Dashboard.png)
 Focus: 
 - Total Revenue
 - Total Quantity Sold
 - Monthly Revenue Trend
 ## Dashboard 2: Revenue Drivers
-![Revenue Drivers](Dashboard/Revenue%20Drivers%20Dashboard.png)
+![Revenue Drivers](Tableau/Revenue%20Drivers%20Dashboard.png)
 Focus: 
 - Revenue by Gender
 - Revenue by Age Group
 - Revenue by Weekday
 ## Dashboard 3: Product Performance
-![Product Performance](Dashboard/Product%20Performance%20Dashboard.png)
+![Product Performance](Tableau/Product%20Performance%20Dashboard.png)
 Focus: 
 - Revenue by Product Category
 - Quantity Sold by Category
