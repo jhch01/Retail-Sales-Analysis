@@ -5,13 +5,17 @@ This project analyzes retail sales performance using SQL (Google BigQuery) and T
 - SQL (BigQuery)
 - Tableau
 - GitHub
+## Dataset
+**Source** Retail Sales Dataset (Kaggle)
+https://www.kaggle.com/datasets/mohammadtalib786/retail-sales-dataset
+The dataset contains transactional retail sales data along with customer, product, and date information. It was transformed into a reporting dataset using SQL in Google Bigquery before being visualized in Tableau.
 ## Data Model
 The original dataset contained: 
 - Sales Fact Table
 - Customers Dimension
 - Dates Dimension
 - Products Dimension
-- A reporting dataset was created in Google BigQuery using SQL and connected to Tableau for interactive dashboard development.
+A reporting dataset was created in Google BigQuery using SQL and connected to Tableau for interactive dashboard development.
 ## Business Questions
 - How does revenue change over time?
 - Which product categories generate the most revenue?
