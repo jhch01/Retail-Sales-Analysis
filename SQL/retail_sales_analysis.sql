@@ -4,93 +4,152 @@
 -- Purpose: Analyze revenue trends, product performance, and sales patterns
 
 -- ==================================
--- KPI: Total revenue & quantity sold
+-- Overall Churn KPI
 -- ==================================
 SELECT 
-  SUM(`Total Amount`) AS total_revenue, 
-  SUM(`Quantity`) AS total_quantity_sold
-FROM `project-5fb8896c-d461-49e8-a4c.retail_project.sales_fact` AS sf;
+  COUNT(*) AS total_customers, 
+  SUM(CASE WHEN `Churn Label` = TRUE THEN 1 ELSE 0 END) AS churned_customers, 
+  ROUND(SUM(CASE WHEN `Churn Label` = TRUE THEN 1 ELSE 0 END) / COUNT(*) * 100, 2) AS churn_rate
+FROM `customer-churn-project-500405.Churn_Project.customers`;
 
 -- ==================================
--- Revenue by month
+-- Contract & Payment Behavior: Contract Type
+-- ==================================
+SELECT
+  Contract, 
+  COUNT(*) AS total_customers, 
+  SUM(CASE WHEN `Churn Label` = TRUE THEN 1 ELSE 0 END) AS churned_customers,
+  ROUND(SUM(CASE WHEN `Churn Label` = TRUE THEN 1 ELSE 0 END) / COUNT(*) * 100, 2) AS churn_rate
+FROM `customer-churn-project-500405.Churn_Project.customers`
+GROUP BY Contract
+ORDER BY churn_rate DESC;
+
+-- ==================================
+-- Contract & Payment Behavior: Payment Method
 -- ==================================
 SELECT 
-  d.month_name, 
-  SUM(sf.`Total Amount`) AS revenue
-FROM `project-5fb8896c-d461-49e8-a4c.retail_project.sales_fact` AS sf
-INNER JOIN `project-5fb8896c-d461-49e8-a4c.retail_project.dates` AS d
-  ON sf.Date = d.Date
-GROUP BY d.month_name
-ORDER BY revenue DESC;
+ `Payment Method`, 
+  COUNT(*) AS total_customers, 
+  SUM(CASE WHEN `Churn Label` = TRUE THEN 1 ELSE 0 END) AS churned_customers,
+  ROUND(SUM(CASE WHEN `Churn Label` = TRUE THEN 1 ELSE 0 END) / COUNT(*) * 100, 2) AS churn_rate
+FROM `customer-churn-project-500405.Churn_Project.customers`
+GROUP BY `Payment Method`
+ORDER BY churn_rate DESC;
 
 -- ==================================
--- Revenue by weekday
+-- Demographics: Gender
 -- ==================================
 SELECT 
-  d.weekday, 
-  SUM(sf.`Total Amount`) AS total_revenue
-FROM `project-5fb8896c-d461-49e8-a4c.retail_project.sales_fact` AS sf
-INNER JOIN `project-5fb8896c-d461-49e8-a4c.retail_project.dates` AS d
-  ON sf.Date = d.Date
-GROUP BY d.weekday
-ORDER BY total_revenue DESC;
+  Gender, 
+  COUNT(*) AS total_customers, 
+  SUM(CASE WHEN `Churn Label` = TRUE THEN 1 ELSE 0 END) AS churned_customers, 
+  ROUND(SUM(CASE WHEN `Churn Label` = TRUE THEN 1 ELSE 0 END) / COUNT(*) * 100, 2) AS churn_rate
+FROM `customer-churn-project-500405.Churn_Project.customers`
+GROUP BY Gender;
 
 -- ==================================
--- Product / Sales behavior: Revenue by Product Category
+-- Demographics: Senior Citizen
 -- ==================================
 SELECT 
-  `Product Category`, 
-  SUM(sf.`Total Amount`) AS revenue
-FROM `project-5fb8896c-d461-49e8-a4c.retail_project.sales_fact` AS sf
-GROUP BY `Product Category`
-ORDER BY revenue DESC;
+  `Senior Citizen`,
+  COUNT(*) AS total_customers, 
+  SUM(CASE WHEN `Churn Label` = TRUE THEN 1 ELSE 0 END) AS churned_customers, 
+  ROUND(SUM(CASE WHEN `Churn Label` = TRUE THEN 1 ELSE 0 END) / COUNT(*) * 100, 2) AS churn_rate
+FROM `customer-churn-project-500405.Churn_Project.customers`
+GROUP BY `Senior Citizen`;
 
 -- ==================================
--- Customer segment analysis: Top customers + revenue contribution
--- ==================================
-WITH customer_revenue AS (
-  SELECT `Customer ID`, SUM(`Total Amount`) AS total_spent
-  FROM `project-5fb8896c-d461-49e8-a4c.retail_project.sales_fact`
-  GROUP BY `Customer ID` 
-), 
-
-total_revenue AS (
-  SELECT SUM(total_spent) AS overall_revenue
-  FROM customer_revenue
-)
-
-SELECT 
-  cr.`Customer ID`, 
-  cr.total_spent, 
-  ROUND(cr.total_spent/tr.overall_revenue * 100, 2) AS revenue_share
-FROM customer_revenue AS cr
-CROSS JOIN total_revenue AS tr
-ORDER BY cr.total_spent DESC;
-
--- ==================================
--- Revenue by age group 
--- ==================================
-SELECT CASE
-  WHEN cd.age BETWEEN 18 AND 25 THEN '18-25'
-  WHEN cd.age BETWEEN 26 AND 35 THEN '26-35'
-  WHEN cd.age BETWEEN 36 AND 50 THEN '36-50'
-  ELSE '50+'
-  END AS age_group, 
-  SUM(sf.`Total Amount`) AS total_revenue
-FROM `project-5fb8896c-d461-49e8-a4c.retail_project.sales_fact` AS sf
-INNER JOIN `project-5fb8896c-d461-49e8-a4c.retail_project.customers_dim` AS cd
-  ON sf.`Customer ID` = cd.`Customer ID`
-GROUP BY age_group 
-ORDER BY total_revenue DESC;
-
--- ==================================
--- Revenue by gender
+-- High-Risk Customer Profile
 -- ==================================
 SELECT 
-  cd.gender, 
-  SUM(`Total Amount`) AS total_revenue
-FROM `project-5fb8896c-d461-49e8-a4c.retail_project.sales_fact` AS sf
-INNER JOIN `project-5fb8896c-d461-49e8-a4c.retail_project.customers_dim` AS cd
-  ON sf.`Customer ID` = cd.`Customer ID`
-GROUP BY cd.gender
-ORDER BY total_revenue DESC;
+  Contract, 
+  `Payment Method`,
+  `Internet Service`,
+  CASE 
+    WHEN `Tenure Months` <= 12 THEN 'New'
+    WHEN `Tenure Months` <= 48 THEN 'Mid'
+    ELSE 'Long-term'
+  END AS tenure_group,
+  COUNT(*) AS customers,
+  SUM(CASE WHEN `Churn Label` = TRUE THEN 1 ELSE 0 END) AS churned_customers,
+  ROUND(SUM(CASE WHEN `Churn Label` = TRUE THEN 1 ELSE 0 END) / COUNT(*) * 100, 2) AS churn_rate
+FROM `customer-churn-project-500405.Churn_Project.customers`
+GROUP BY Contract, `Payment Method`, `Internet Service`, tenure_group
+ORDER BY churn_rate DESC;
+
+-- ==================================
+-- Services Impact
+-- ==================================
+SELECT 
+  `Tech Support`,
+  COUNT(*) AS total_customers, 
+  SUM(CASE WHEN `Churn Label` = TRUE THEN 1 ELSE 0 END) AS churned_customers,
+  ROUND(SUM(CASE WHEN `Churn Label` = TRUE THEN 1 ELSE 0 END) / COUNT(*) * 100, 2) AS churn_rate
+FROM `customer-churn-project-500405.Churn_Project.customers`
+GROUP BY `Tech Support`;
+
+-- ==================================
+-- Tenure: Customer Loyalty
+-- ==================================
+SELECT 
+  CASE
+    WHEN `Tenure Months` BETWEEN 0 AND 12 THEN '0-1 year'
+    WHEN `Tenure Months` BETWEEN 13 AND 24 THEN '1-2 years'
+    WHEN `Tenure Months` BETWEEN 25 AND 48 THEN '2-4 years'
+    ELSE '4+ years'
+  END AS tenure_group,
+  COUNT(*) AS total_customers,
+  SUM(CASE WHEN `Churn Label` = TRUE THEN 1 ELSE 0 END) AS churned_customers,
+  ROUND(SUM(CASE WHEN `Churn Label` = TRUE THEN 1 ELSE 0 END) / COUNT(*) * 100, 2) AS churn_rate
+FROM `customer-churn-project-500405.Churn_Project.customers`
+GROUP BY tenure_group
+ORDER BY churn_rate DESC;
+
+-- ==================================
+-- Master Query: Customer Churn Analysis
+-- ==================================
+SELECT
+  CustomerID, 
+  Gender,
+  `Senior Citizen`, 
+  Partner,
+  Dependents,
+  `Phone Service`,
+  `Internet Service`,
+  `Online Security`,
+  `Online Backup`,
+  `Device Protection`,
+  `Tech Support`,
+  `Streaming TV`,
+  `Streaming Movies`,
+  Contract, 
+  `Paperless Billing`,
+  `Payment Method`,
+  `Monthly Charges`,
+  `Total Charges`,
+  `Tenure Months`,
+  `Churn Label`,
+  `Churn Value`,
+  `Churn Score`,
+  CLTV,
+  `Churn Reason`,
+
+  CASE 
+    WHEN `Churn Label` = TRUE THEN 'Churned'
+    ELSE 'Active'
+  END AS customer_status,
+
+  CASE 
+    WHEN `Tenure Months` <= 12 THEN '0-12 Months'
+    WHEN `Tenure Months` <= 24 THEN '13-24 Months'
+    WHEN `Tenure Months` <= 48 THEN '25-48 Months'
+    ELSE '48+ Months'
+  END AS tenure_group,
+
+  CASE
+    WHEN `Monthly Charges` < 35 THEN 'Low'
+    WHEN `Monthly Charges` BETWEEN 35 AND 70 THEN 'Medium'
+    ELSE 'High'
+  END AS charge_group
+
+FROM `customer-churn-project-500405.Churn_Project.customers`;
