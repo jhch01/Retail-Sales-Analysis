@@ -1,5 +1,5 @@
 -- ==================================
--- SALES ANALYTICS
+-- SALES ANALYSIS
 -- ==================================
 -- Purpose: Analyze revenue trends, product performance, and sales patterns
 
