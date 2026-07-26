@@ -53,7 +53,7 @@ A reporting dataset was created in Google BigQuery using SQL and connected to Ta
 - Align promotional campaigns with historically high-performing months such as May.
 - Conduct further analysis on underperforming categories to identify pricing, inventory, or marketing opportunities.
 ## Tableau Dashboard 
-Included in the Tableau folder
+The Tableau workbook is included in the Tableau folder
 ## Skills Demonstrated 
 - SQL (Joins, Aggregations, CTEs)
 - Google BigQuery
